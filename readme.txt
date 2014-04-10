@@ -1,7 +1,7 @@
 === Featured Image Caption ===
 Contributors: cconover
 Donate link: https://christiaanconover.com/code/wp-featured-image-caption#donate
-Tags: buffer, bufferapp, sharing, social, twitter, facebook, linkedin
+Tags: thumbnail, caption, featured image
 Requires at least: 2.7
 Tested up to: 3.9
 Stable tag: 0.1.0

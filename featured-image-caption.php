@@ -3,7 +3,7 @@
  * Plugin Name: Featured Image Caption
  * Plugin URI: https://christiaanconover.com/code/wp-featured-image-caption?ref=plugin-data
  * Description: Set a caption for the featured image of a post that can be displayed in your theme
- * Version: 0.3.1
+ * Version: 0.3.2
  * Author: Christiaan Conover
  * Author URI: https://christiaanconover.com?ref=wp-featured-image-caption-plugin-author-uri
  * License: GPLv2
@@ -18,7 +18,7 @@ class cc_featured_image_caption {
 	// Plugin constants
 	const ID = 'cc-featured-image-caption'; // Plugin ID
 	const NAME = 'Featured Image Caption'; // Plugin name
-	const VERSION = '0.3.1'; // Plugin version
+	const VERSION = '0.3.2'; // Plugin version
 	const WPVER = '2.7'; // Minimum version of WordPress required for this plugin
 	const PREFIX = 'cc_featured_image_caption_'; // Plugin database/method prefix
 	const METAPREFIX = '_cc_featured_image_caption'; // Post meta database prefix
@@ -72,7 +72,7 @@ class cc_featured_image_caption {
 		// Retrieve the current caption as a string, if set
 		$caption = get_post_meta( $post->ID, self::METAPREFIX, true );
 
-		// If the data is a string, convert it to an array
+		// If the data is a string, convert it to an array (legacy data support)
 		if ( is_string( $caption ) ) {
 			$caption = array(
 				'caption_text'	=> $caption
@@ -237,7 +237,7 @@ function cc_featured_image_caption( $echo = true, $source = true ) {
 
 	// If a caption is set, assemble it
 	if ( ! false == $captiondata ) {
-		// If the data is a string, convert it to an array
+		// If the data is a string, convert it to an array (legacy data support)
 		if ( is_string( $captiondata ) ) {
 			$captiondata = array(
 				'caption_text'	=> $captiondata
@@ -258,11 +258,11 @@ function cc_featured_image_caption( $echo = true, $source = true ) {
 			if ( ! empty( $captiondata['source_text'] ) && false != $source ) {
 				// If source attribution has a URL, format the source as a link
 				if ( ! empty( $captiondata['source_url'] ) ) {
-					$caption .= ' <span class="cc-featured-image-caption-source">Source: <a href="' . $captiondata['source_url'] . '">' . $captiondata['source_text'] . '</a></span>';
+					$caption .= ' <span class="cc-featured-image-caption-source"><a href="' . $captiondata['source_url'] . '">' . $captiondata['source_text'] . '</a></span>';
 				}
 				// If no URL is set, just display the text
 				else {
-					$caption .= ' <span class="cc-featured-image-caption-source">Source: ' . $captiondata['source_text'] . '</span>';
+					$caption .= ' <span class="cc-featured-image-caption-source">' . $captiondata['source_text'] . '</span>';
 				}
 			}
 

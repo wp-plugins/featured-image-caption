@@ -2,55 +2,48 @@
 Contributors: cconover
 Donate link: https://christiaanconover.com/code/wp-featured-image-caption?ref=plugin-readme
 Tags: image, caption, featured image
-Requires at least: 2.7
-Tested up to: 4.1
-Stable tag: 0.4.1
+Requires at least: 3.5
+Tested up to: 4.2
+Stable tag: 0.6.2
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Custom post meta field and meta box to set a caption for the featured image of a post.
+Easily add and display a caption to the featured image of a post.
 
 == Description ==
 
-Featured Image Caption is a WordPress plugin that creates a custom post meta field and meta box to set a caption for the featured image of a post. This data is saved to the post meta, and can be added to your theme using a function.
+Featured Image Caption makes it simple to show a caption with the featured image of a post or page. It works seamlessly with most themes, with no coding required. If you like to mess about in the code, it supports that too.
+
+For full details about the plugin and usage documentation, [check out the plugin on GitHub](https://github.com/cconover/wp-featured-image-caption).
 
 == Installation ==
 
-1. Upload the `featured-image-caption` directory to your site's `plugins` directory
-2. Activate the plugin through the `Plugins` menu in WordPress
-3. Add the following line to your theme files (within The Loop) to display the caption: `<?php cc_featured_image_caption(); ?>`
+1. Upload the `featured-image-caption` directory to your site's `plugins` directory.
+2. Activate the plugin through the `Plugins` menu in WordPress.
+3. Review the plugin options found in `Settings` > `Featured Image Caption`.
 
 == Frequently Asked Questions ==
 
-= How do I set the caption for the featured image? =
-The meta box is added in the side column of the Edit Post or Edit Page screen. Add your caption inside the text area within the meta box.
-
-= Are there any options for this plugin? =
-There aren't any options for this plugin. When you activate it, the meta box and theme function are added.
-
-= How do I customize the formatting of the caption? =
-The caption is contained inside a `<span>` tag with the class `cc-featured-image-caption` which you can use to apply CSS to the caption.
-
-The image source attribution information is encapsulated in a separate `<span>` tag with the class `cc-featured-image-caption-source`.
-
-Note: if you add the argument to return the caption, only the caption text is returned and is not encapsulated by `<span>` tags.
-
-= How do I return the value of the caption without displaying it? =
-The `cc_featured_image_caption()` function accepts an argument to determine whether the result is displayed or returned.
-
-To return the value, use the following syntax: `cc_featured_image_caption( false );`
-
-= How do I prevent source attribution data from being included with my caption request, even if the data is set for the post? =
-The theme function accepts two arguments. The first handles whether to display the caption or return it, which is covered above. The second controls whether source attribution data is included. It defaults to `true`, meaning attribution data is included. If you set it to `false`, this data will not be included.
-
-= Is there an easy way for me to check whether a caption has been set in my theme code? =
-Use the function `cc_has_featured_image_caption()` to find out whether a caption is set. This function returns `true` if one is set, and `false` if no caption is set.
+= Where do I find the documentation for this plugin? =
+Documentation is maintained on [GitHub](https://github.com/cconover/wp-featured-image-caption). I don't want to maintain two separate sets of documentation and run the risk of conflicting/outdated information, and all of the plugin development happens on GitHub.
 
 == Screenshots ==
 
-1. Featured Image Caption meta box below the Featured Image meta box
+1. Featured Image Caption meta box below the Featured Image meta box.
 
 == Upgrade Notice ==
+
+= 0.6.2 =
+Fixes issue with incorrectly escaped characters for the meta box fields.
+
+= 0.6.1 =
+Fixes a bug introduced in 0.6.0 in the theme function.
+
+= 0.6.0 =
+A shortcode has been added to allow for easy insertion of caption information anywhere in a post.
+
+= 0.5.0 =
+*** BREAKING CHANGES - READ BEFORE UPGRADING *** The plugin has been completely rewritten to allow the caption to be automatically inserted with the featured image, no theme modifications required. The CSS selectors have changed. PLEASE PLEASE PLEASE read the updated changelog and documentation before upgrading.
 
 = 0.4.1 =
 Added the option to have the source link open in a new window.
@@ -80,6 +73,20 @@ Fixed check in theme function for whether a caption is set, and how the function
 Initial release.
 
 == Changelog ==
+
+= 0.6.2 =
+Fixes issue with incorrectly escaped characters for the meta box fields.
+
+= 0.6.1 =
+Fixes a bug introduced in 0.6.0 in the theme function.
+
+= 0.6.0 =
+A shortcode has been added for easy insertion of caption information into a post or page. Debugging information is now displayed on the plugin settings page. Minor bug fixes.
+
+= 0.5.0 =
+** Major Release / Breaking Changes **
+
+Plugin can automatically add the caption after the featured image, removing the need to modify theme files. If you are upgrading from a previous option this will be disabled by default, otherwise it is enabled by default. Theme function `cc_featured_image_caption()` is not needed if you have automatic caption insertion turned on. If this option is enabled, the function won't display anything. You can, however, still use it to `return` the caption data. CSS classes have changed. See the FAQ for information about the new markup and CSS classes.
 
 = 0.4.1 =
 * Added the option to have the source link open in a new window. This option is on a post-by-post basis. Thanks to [avluis](https://github.com/cconover/wp-featured-image-caption/issues/9) for the suggestion.

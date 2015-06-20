@@ -4,7 +4,7 @@
  * Plugin Name: Featured Image Caption
  * Plugin URI: https://christiaanconover.com/code/wp-featured-image-caption?utm_source=wp-featured-image-caption
  * Description: Set a caption for the featured image of a post that can be displayed on your site.
- * Version: 0.7.2
+ * Version: 0.8.0
  * Author: Christiaan Conover
  * Author URI: https://christiaanconover.com?utm_source=wp-featured-image-caption-author
  * License: GPLv2.
@@ -22,20 +22,35 @@ if( version_compare( phpversion(), '5.3', '<' ) ) {
     return;
 }
 
+/* Define plugin constants */
+define( 'CCFIC_ID', 'cc-featured-image-caption' ); // Plugin ID
+define( 'CCFIC_NAME', 'Featured Image Caption' ); // Plugin name
+define( 'CCFIC_VERSION', '0.8.0' ); // Plugin version
+define( 'CCFIC_WPVER', '3.5' ); // Minimum required version of WordPress
+define( 'CCFIC_KEY', 'cc_featured_image_caption' ); // Database key
+
+
+// Plugin activation
+if( is_admin() ) {
+    require_once 'classes/Manage.php';
+    // Plugin activation
+    register_activation_hook( __FILE__, array( '\cconover\FeaturedImageCaption\Manage', 'activate' ) );
+}
+
 /**
  * Plugin loader hook.
  */
 function cc_featured_image_caption_loader() {
     // Define the path to this file
-    if ( ! defined( 'CCFAC_PATH' ) ) {
-        define( 'CCFAC_PATH', __FILE__ );
+    if ( ! defined( 'CCFIC_PATH' ) ) {
+        define( 'CCFIC_PATH', __FILE__ );
     }
 
     // Composer autoloader
     require_once 'vendor/autoload.php';
 
     // Instantiate the plugin
-    new \cconover\FeaturedImageCaption\Loader();
+    new \cconover\FeaturedImageCaption\Bootstrap();
 }
 add_action('plugins_loaded', 'cc_featured_image_caption_loader');
 
@@ -52,16 +67,15 @@ add_action('plugins_loaded', 'cc_featured_image_caption_loader');
  * @return string The formatted caption.
  */
 function cc_featured_image_caption( $echo = true, $html = true ) {
-    $caption = new \cconover\FeaturedImageCaption\Caption();
+    // Call the caption data using the shortcode
+    $format = $html ? '' : ' format="plaintext"';
+    $caption = do_shortcode( '[ccfic'.$format.']');
 
-    // If the result should be printed to the screen. $echo and $html MUST both be true.
-    if ( ! empty( $echo ) && ! empty( $html ) ) {
-        // If automatic caption appending is disabled
-        if ( ! $caption->auto_append() ) {
-            echo $caption->caption();
-        }
+    // If the result should be printed to the screen.
+    if ( $echo ) {
+        echo $caption;
     } else {
-        return $caption->caption( $html );
+        return $caption;
     }
 }
 

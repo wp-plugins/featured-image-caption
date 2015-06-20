@@ -44,11 +44,8 @@ class Hooks {
     private function manage() {
         $manage = new Manage();
 
-        // Plugin activation
-        register_activation_hook( CCFAC_PATH, array( $manage, 'activate' ) );
-
         // Plugin deactivation
-        register_deactivation_hook( CCFAC_PATH, array( $manage, 'deactivate' ) );
+        register_deactivation_hook( CCFIC_PATH, array( $manage, 'deactivate' ) );
     }
 
     /**
@@ -96,6 +93,9 @@ class Hooks {
         $shortcode = new Shortcode();
 
         // Register the shortcode
+        add_shortcode( 'ccfic', array( $shortcode, 'shortcode' ) );
+
+        // DEPRECATED shortcode because hyphens are to be avoided.
         add_shortcode( 'cc-featured-image-caption', array( $shortcode, 'shortcode' ) );
     }
 

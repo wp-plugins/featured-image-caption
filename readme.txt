@@ -3,8 +3,8 @@ Contributors: cconover
 Donate link: https://christiaanconover.com/code/wp-featured-image-caption?ref=plugin-readme
 Tags: image, caption, featured image
 Requires at least: 3.5
-Tested up to: 4.2
-Stable tag: 0.6.3
+Tested up to: 4.2.2
+Stable tag: 0.8.0
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,18 @@ Documentation is maintained on [GitHub](https://github.com/cconover/wp-featured-
 1. Featured Image Caption meta box below the Featured Image meta box.
 
 == Upgrade Notice ==
+
+= 0.8.0 =
+NOTICE: Changes the shortcode name and fixes bugs in the shortcode. PLEASE check the changelog for this version to see how this affects you.
+
+= 0.7.2 =
+Fixes a bug in upgrading plugin options.
+
+= 0.7.1 =
+Fixes missing dependency.
+
+= 0.7.0 =
+Fixes bug in handling HTML tags in caption data that was introduced in the last release. Bug fixes related to activation.
 
 = 0.6.3 =
 Adds support for HTML tags to be used in caption and source text.
@@ -76,6 +88,19 @@ Fixed check in theme function for whether a caption is set, and how the function
 Initial release.
 
 == Changelog ==
+
+= 0.8.0 =
+* Changes the name of the shortcode from `cc-featured-image-caption` to `ccfic`. This was done for a few reasons. First, WordPress documentation advises against hyphens in shortcode names, so in order to follow best practices the hyphens have been removed. Second, it's easier to type the abbreviation when using the shortcode. Please note, the old shortcode name still works for now, but you should expect that it will be removed entirely by the time this plugin reaches its 1.0.0 release. As such, please update all the locations that you use the shortcode. Please see the [shortcode documentation](https://github.com/cconover/wp-featured-image-caption/wiki/Shortcode) for usage information.
+* Fixes the activation process so that initial configuration is saved properly in the database.
+
+= 0.7.2 =
+Fixes a bug in upgrading plugin options.
+
+= 0.7.1 =
+Fixes missing dependency.
+
+= 0.7.0 =
+Fixes bug in handling HTML tags in caption data that was introduced in the last release. Bug fixes related to activation.
 
 = 0.6.3 =
 Adds support for HTML tags to be used in caption and source text. HTML tags are filtered, and only tags allowed in post content are allowed in caption and source text.

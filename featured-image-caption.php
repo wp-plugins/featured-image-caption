@@ -1,59 +1,81 @@
 <?php
 
-/**
+/*
  * Plugin Name: Featured Image Caption
- * Plugin URI: https://christiaanconover.com/code/wp-featured-image-caption?utm_source=wp-featured-image-caption-plugin-data
+ * Plugin URI: https://christiaanconover.com/code/wp-featured-image-caption?utm_source=wp-featured-image-caption
  * Description: Set a caption for the featured image of a post that can be displayed on your site.
- * Version: 0.6.3
+ * Version: 0.8.0
  * Author: Christiaan Conover
- * Author URI: https://christiaanconover.com?utm_source=wp-featured-image-caption-plugin-author-uri
+ * Author URI: https://christiaanconover.com?utm_source=wp-featured-image-caption-author
  * License: GPLv2.
- **/
+ */
 
 // Prevent direct access
-if (! defined('ABSPATH')) {
-    die('You cannot access this resource directly.');
+if ( ! defined( 'ABSPATH' ) ) {
+    die( 'You cannot access this resource directly.' );
 }
 
-// Create plugin object
-function cc_featured_image_caption_loader()
-{
-    require_once plugin_dir_path(__FILE__).'class-featured-image-caption.php';
-    new \cconover\FeaturedImageCaption\FeaturedImageCaption();
+// Check that the version of PHP is sufficient
+if( version_compare( phpversion(), '5.3', '<' ) ) {
+    trigger_error( 'PHP version ' . phpversion() . ' is unsupported, must be version 5.3 or newer', E_USER_ERROR );
 
-    // Admin
-    if (is_admin()) {
-        // Include the file containing the main Admin class and create an admin object
-        require_once plugin_dir_path(__FILE__).'admin/featured-image-caption-admin.php';
-        new \cconover\FeaturedImageCaption\Admin();
+    return;
+}
+
+/* Define plugin constants */
+define( 'CCFIC_ID', 'cc-featured-image-caption' ); // Plugin ID
+define( 'CCFIC_NAME', 'Featured Image Caption' ); // Plugin name
+define( 'CCFIC_VERSION', '0.8.0' ); // Plugin version
+define( 'CCFIC_WPVER', '3.5' ); // Minimum required version of WordPress
+define( 'CCFIC_KEY', 'cc_featured_image_caption' ); // Database key
+
+
+// Plugin activation
+if( is_admin() ) {
+    require_once 'classes/Manage.php';
+    // Plugin activation
+    register_activation_hook( __FILE__, array( '\cconover\FeaturedImageCaption\Manage', 'activate' ) );
+}
+
+/**
+ * Plugin loader hook.
+ */
+function cc_featured_image_caption_loader() {
+    // Define the path to this file
+    if ( ! defined( 'CCFIC_PATH' ) ) {
+        define( 'CCFIC_PATH', __FILE__ );
     }
+
+    // Composer autoloader
+    require_once 'vendor/autoload.php';
+
+    // Instantiate the plugin
+    new \cconover\FeaturedImageCaption\Bootstrap();
 }
 add_action('plugins_loaded', 'cc_featured_image_caption_loader');
 
 /**
- * As of version 0.5.0, this function is no longer required, and is retained for
- * legacy support and to allow theme developers more control over placement.
- *
  * Use this function to retrieve the caption for the featured image.
  * This function must be used within The Loop.
+ *
+ * As of version 0.5.0, this function is no longer required, and is retained for
+ * legacy support and to allow theme developers more control over placement.
  *
  * @param bool $echo Whether to print the results true or return them false (default: true)
  * @param bool $html Whether the result should be formatted HTML. True: HTML. False: array of caption data.
  *
- * @return mixed
+ * @return string The formatted caption.
  */
-function cc_featured_image_caption($echo = true, $html = true)
-{
-    $caption = new \cconover\FeaturedImageCaption\FeaturedImageCaption();
+function cc_featured_image_caption( $echo = true, $html = true ) {
+    // Call the caption data using the shortcode
+    $format = $html ? '' : ' format="plaintext"';
+    $caption = do_shortcode( '[ccfic'.$format.']');
 
-    // If the result should be printed to the screen. $echo and $html MUST both be true.
-    if (! empty($echo) && ! empty($html)) {
-        // If automatic caption appending is disabled
-        if (! $caption->auto_append()) {
-            echo $caption->caption();
-        }
+    // If the result should be printed to the screen.
+    if ( $echo ) {
+        echo $caption;
     } else {
-        return $caption->caption($html);
+        return $caption;
     }
 }
 
@@ -67,7 +89,6 @@ function cc_featured_image_caption($echo = true, $html = true)
  *
  * @return bool
  */
-function cc_has_featured_image_caption()
-{
+function cc_has_featured_image_caption() {
     return true;
 }
